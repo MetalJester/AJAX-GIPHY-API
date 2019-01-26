@@ -51,18 +51,42 @@
                     console.log(response);
                     var results = response.data;
                     for (var i = 0; i < results.length; i++) {
-                        var heroDiv = $("<div>");
-                        heroDiv.addClass("gif-still")
+                        var heroDiv = $("<div>");                        
                         var p = $("<p>").text("Rating: " + results[i].rating);
                         var heroImage = $("<img>");
+                        heroImage.addClass("gif-still")
                         heroImage.attr("src", results[i].images.fixed_height_still.url);
+                        heroImage.attr("data-still", results[i].images.fixed_height_still.url);
+                        heroImage.attr("data-animate", results[i].images.fixed_height.url);
+                        ///             attribute name, attribute value
+                        heroImage.attr("data-state", "still")
                         heroDiv.append(p);
                         heroDiv.append(heroImage);
                         $("#heroes-appear-here").prepend(heroDiv);
                     }
+
+
                 })
+
         })
 
+        $(document).on("click", ".gif-still", function () {
+            console.log("I was clicked");
+            var state = $(this).attr("data-state");
+            console.log(state);
+            console.log(this);
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+
+
+        });
+
+       
 
 
 
