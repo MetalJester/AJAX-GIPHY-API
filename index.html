@@ -36,6 +36,7 @@
         }
 
         $("button").on("click", function () {
+            $("#heroes-appear-here").empty();
             var hero = $(this).text();
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero +
                 "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
