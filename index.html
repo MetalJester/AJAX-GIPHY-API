@@ -31,6 +31,7 @@
 
         for (var i = 0; i < topics.length; i++) {
             var heroButton = $("<button>" + topics[i] + "</button>");
+            heroButton.addClass("btn btn-danger mx-sm-1 my-sm-1 border border-dark");
             $("#buttons-appear-here").append(heroButton);
         }
 
@@ -50,6 +51,7 @@
                     var results = response.data;
                     for (var i = 0; i < results.length; i++) {
                         var heroDiv = $("<div>");
+                        heroDiv.addClass("gif-still")
                         var p = $("<p>").text("Rating: " + results[i].rating);
                         var heroImage = $("<img>");
                         heroImage.attr("src", results[i].images.fixed_height_still.url);
