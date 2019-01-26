@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <title>Marvel GIPHY</title>
+</head>
+
+
+<body>
+
+
+    <div id="buttons-appear-here"></div>
+
+    <div id="heroes-appear-here"></div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor", 
+        "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
+
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topics + 
+            "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
+
+        for (var i = 0; i < topics.length; i++){
+            var heroButton = $("<button>" + topics[i] + "</button>");
+            $("#buttons-appear-here").append(heroButton);
+
+        }
+
+
+
+    </script>
+
+</body>
+
+<!-- working version of the cat button activity using my theme -->
+<!-- <body>
+
+        <button data-hero="thor">Thor</button>
+        <button data-hero="black widow">Black Widow</button>
+        <button data-hero="ironman">Iron Man</button>
+        <div id="heroes-appear-here"></div>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+    
+            $("button").on("click", function () {
+    
+                var hero = $(this).attr("data-hero");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero + 
+            "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
+    
+    
+    
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+    
+                    .then(function(response) {
+                        console.log(queryURL);
+                        console.log(response);
+                        var results = response.data;
+                        for (var i = 0; i < results.length; i++) {
+                            var heroDiv = $("<div>");
+                            var p = $("<p>").text("Rating: " + results[i].rating);
+                            var heroImage = $("<img>");
+                            heroImage.attr("src", results[i].images.fixed_height.url);
+                            heroDiv.append(p);
+                            heroDiv.append(heroImage);
+                            $("#heroes-appear-here").prepend(heroDiv);
+                        }
+                    })
+    
+            })
+    
+        </script>
+    
+    </body> -->
+
+
+
+
+
+
+
+
+
+</html>
