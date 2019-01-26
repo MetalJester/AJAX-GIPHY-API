@@ -21,22 +21,36 @@
     <div id="buttons-appear-here"></div>
 
     <div id="heroes-appear-here"></div>
-    
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor", 
-        "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
+        var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor",
+            "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topics + 
-            "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
-
-        for (var i = 0; i < topics.length; i++){
+        for (var i = 0; i < topics.length; i++) {
             var heroButton = $("<button>" + topics[i] + "</button>");
             $("#buttons-appear-here").append(heroButton);
-
         }
+
+        $("button").on("click", function () {
+            var hero = $(this).text();
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero +
+                "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
+
+            $.ajax({
+               url: queryURL,
+               method: "GET"     
+            }) 
+
+            .then(function(response) {
+                console.log(queryURL);
+                console.log(reponse);
+            })   
+        })
+
+
 
 
 
