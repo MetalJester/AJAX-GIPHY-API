@@ -40,14 +40,24 @@
                 "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
 
             $.ajax({
-               url: queryURL,
-               method: "GET"     
-            }) 
+                url: queryURL,
+                method: "GET"
+            })
 
-            .then(function(response) {
-                console.log(queryURL);
-                console.log(reponse);
-            })   
+                .then(function (response) {
+                    console.log(queryURL);
+                    console.log(response);
+                    var results = response.data;
+                    for (var i = 0; i < results.length; i++) {
+                        var heroDiv = $("<div>");
+                        var p = $("<p>").text("Rating: " + results[i].rating);
+                        var heroImage = $("<img>");
+                        heroImage.attr("src", results[i].images.fixed_height_still.url);
+                        heroDiv.append(p);
+                        heroDiv.append(heroImage);
+                        $("#heroes-appear-here").prepend(heroDiv);
+                    }
+                })
         })
 
 
@@ -57,58 +67,6 @@
     </script>
 
 </body>
-
-<!-- working version of the cat button activity using my theme -->
-<!-- <body>
-
-        <button data-hero="thor">Thor</button>
-        <button data-hero="black widow">Black Widow</button>
-        <button data-hero="ironman">Iron Man</button>
-        <div id="heroes-appear-here"></div>
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript">
-    
-            $("button").on("click", function () {
-    
-                var hero = $(this).attr("data-hero");
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero + 
-            "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
-    
-    
-    
-                $.ajax({
-                    url: queryURL,
-                    method: "GET"
-                })
-    
-                    .then(function(response) {
-                        console.log(queryURL);
-                        console.log(response);
-                        var results = response.data;
-                        for (var i = 0; i < results.length; i++) {
-                            var heroDiv = $("<div>");
-                            var p = $("<p>").text("Rating: " + results[i].rating);
-                            var heroImage = $("<img>");
-                            heroImage.attr("src", results[i].images.fixed_height.url);
-                            heroDiv.append(p);
-                            heroDiv.append(heroImage);
-                            $("#heroes-appear-here").prepend(heroDiv);
-                        }
-                    })
-    
-            })
-    
-        </script>
-    
-    </body> -->
-
-
-
-
-
-
-
 
 
 </html>
