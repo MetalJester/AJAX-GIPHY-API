@@ -39,80 +39,90 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor",
-            "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
-
-        function renderButtons() {
-            $("#buttons-appear-here").empty();
-            for (var i = 0; i < topics.length; i++) {
-                var heroButton = $("<button>" + topics[i] + "</button>");
-                heroButton.addClass("btn btn-danger mx-sm-1 my-sm-1 border border-dark");
-                $("#buttons-appear-here").append(heroButton);
-            }
-
-        };
-
-        renderButtons();
 
 
+        $(document).ready(function () {
+            //array of topics for the page; new topics will be added to this array
+            var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor",
+                "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
 
-
-        $("button").on("click", function () {
-            $("#heroes-appear-here").empty();
-            var hero = $(this).text();
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero +
-                "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
-                console.log(queryURL);
-                console.log(response);
-                var results = response.data;
-                for (var i = 0; i < results.length; i++) {
-                    var heroDiv = $("<div>");
-                    var p = $("<p>").text("Rating: " + results[i].rating);
-                    var heroImage = $("<img>");
-                    heroImage.addClass("gif-still");
-                    heroImage.attr("src", results[i].images.fixed_height_still.url);
-                    heroImage.attr("data-still", results[i].images.fixed_height_still.url);
-                    heroImage.attr("data-animate", results[i].images.fixed_height.url);
-                    ///         attribute name, attribute value
-                    heroImage.attr("data-state", "still");
-                    heroDiv.append(p);
-                    heroDiv.append(heroImage);
-                    $("#heroes-appear-here").prepend(heroDiv);
+            //to render buttons
+            function renderButtons() {
+                $("#buttons-appear-here").empty();
+                for (var i = 0; i < topics.length; i++) {
+                    var heroButton = $("<button>" + topics[i] + "</button>");
+                    heroButton.attr("data-search", topics[i])
+                    heroButton.addClass("btn btn-danger mx-sm-1 my-sm-1 border border-dark hero-button");
+                    $("#buttons-appear-here").append(heroButton);
                 }
 
+            };
+
+            //calls the function to render butttons
+            renderButtons();
+
+            //on-click function for hero buttons to activate AJAX query
+            $(".hero-button").on("click", function () {
+                $("#heroes-appear-here").empty();// 
+                var hero = $(this).data("search");
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero +
+                    "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(queryURL);
+                    console.log(response);
+                    var results = response.data;
+                    for (var i = 0; i < results.length; i++) {
+                        var heroDiv = $("<div>");
+                        var p = $("<p>").text("Rating: " + results[i].rating);
+                        var heroImage = $("<img>");
+                        heroImage.addClass("gif-still");
+                        heroImage.attr("src", results[i].images.fixed_height_still.url);
+                        heroImage.attr("data-still", results[i].images.fixed_height_still.url);
+                        heroImage.attr("data-animate", results[i].images.fixed_height.url);
+                        ///         attribute name, attribute value
+                        heroImage.attr("data-state", "still");
+                        heroDiv.append(p);
+                        heroDiv.append(heroImage);
+                        $("#heroes-appear-here").prepend(heroDiv);
+                    }
+
+
+                })
 
             })
 
-        })
+            //tells the document to switch from a still gif to a moving gif when gifs are clicked
+            $(document).on("click", ".gif-still", function () {
+                // console.log("I was clicked");
+                var state = $(this).attr("data-state");
+                // console.log(state);
+                // console.log(this);
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
 
 
-        $("#submit-hero").on("click", function () {
-            var newHero = $("#input-hero").val();
-            console.log(newHero);
-            topics.push(newHero);
-            console.log(topics);
-            renderButtons();
+            });
 
-        })
+            //adds a new topic to the array and make a new button when the submit button is clicked
+            $("#submit-hero").on("click", function (event) {
+                event.preventDefault()
+                var newHero = $("#input-hero").val().trim();
+                console.log(newHero);
+                topics.push(newHero);
+                console.log(topics);
+                $("#input-hero").val('')
+                renderButtons();
 
 
-        $(document).on("click", ".gif-still", function () {
-            // console.log("I was clicked");
-            var state = $(this).attr("data-state");
-            // console.log(state);
-            // console.log(this);
-            if (state === "still") {
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-            } else {
-                $(this).attr("src", $(this).attr("data-still"));
-                $(this).attr("data-state", "still");
-            }
-
+            })
 
         });
 
