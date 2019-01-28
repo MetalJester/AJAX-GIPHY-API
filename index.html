@@ -64,7 +64,7 @@
         $(document).ready(function () {
             //array of topics for the page; new topics will be added to this array
             var topics = ["Black Panther", "Iron Man", "Black Widow", "Thor",
-                "Shuri", "Hulk", "Ant Man", "Okoye", "Dead Pool", "Jessica Jones", "Groot"];
+                "Shuri", "Hulk", "Ant Man", "Okoye", "Deadpool", "Jessica Jones", "Groot"];
 
             //to render buttons
             function renderButtons() {
@@ -82,8 +82,8 @@
             renderButtons();
 
             //on-click function for hero buttons to activate AJAX query
-            $(".hero-button").on("click", function () {
-                $("#heroes-appear-here").empty();// 
+            $(document).on("click", ".hero-button", function () {
+                $("#heroes-appear-here").empty();
                 var hero = $(this).data("search");
                 var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero +
                     "&api_key=OYyDhZcoxR0QtIKjU05NZ19BN75Df3ns&limit=10";
@@ -96,17 +96,23 @@
                     var results = response.data;
                     for (var i = 0; i < results.length; i++) {
                         var heroDiv = $("<div>");
-                        var p = $("<p>").text("Rating: " + results[i].rating);
-                        p.addClass("ml-3 mt-3");
+                        var p1 = $("<p>").text("Rating: " + results[i].rating);
+                        var p2 = $("<p>").text("Title: " + results[i].title);
+                        var p3 = $("<p>").text("url: " + results[i].bitly_gif_url);
+                        p1.addClass("ml-3 mb-1");
+                        p2.addClass("ml-3 mb-1");
+                        p3.addClass("ml-3 mb-3");
                         var heroImage = $("<img>");
-                        heroImage.addClass("gif-still ml-3 mb-3");
+                        heroImage.addClass("gif-still ml-3 mt-3");
                         heroImage.attr("src", results[i].images.fixed_height_still.url);
                         heroImage.attr("data-still", results[i].images.fixed_height_still.url);
                         heroImage.attr("data-animate", results[i].images.fixed_height.url);
                         ///         attribute name, attribute value
                         heroImage.attr("data-state", "still");
-                        heroDiv.append(p);
                         heroDiv.append(heroImage);
+                        heroDiv.append(p1);
+                        heroDiv.append(p2);
+                        heroDiv.append(p3);
                         $("#heroes-appear-here").prepend(heroDiv);
                     }
 
